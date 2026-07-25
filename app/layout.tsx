@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Carlos Vásquez — Escritorio",
-  description: "Portafolio estilo Windows 11 de Carlos Enrique Vásquez Colimilla",
+  description: "Portafolio estilo IOS de Carlos Enrique Vásquez Colimilla",
 };
 
 export default function RootLayout({
