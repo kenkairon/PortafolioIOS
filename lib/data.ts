@@ -75,37 +75,18 @@ export const certificaciones = [
 ];
 
 export const contacto = {
-  email: "ingeinfo2006@gmail.com",
   portafolio: "https://portafoliodevcevasquez.netlify.app",
 };
 
-// Fondos de escritorio (gradientes, sin imágenes externas)
+// Fondos de escritorio: imágenes reales (SVG) en /public/wallpapers.
+// Para usar tus propias fotos: coloca un .jpg/.png en public/wallpapers/
+// y cambia "src" por esa ruta, ej: "/wallpapers/mi-foto.jpg"
 export const wallpapers = [
-  {
-    id: "bloom",
-    nombre: "Aurora azul",
-    css: "linear-gradient(160deg, #1c92d2 0%, #4facfe 45%, #a6ffcb 100%)",
-  },
-  {
-    id: "nocturno",
-    nombre: "Nocturno",
-    css: "linear-gradient(160deg, #0b1220 0%, #16213a 45%, #263a5c 100%)",
-  },
-  {
-    id: "aurora",
-    nombre: "Violeta",
-    css: "linear-gradient(160deg, #2b1055 0%, #7597de 100%)",
-  },
-  {
-    id: "atardecer",
-    nombre: "Atardecer",
-    css: "linear-gradient(160deg, #ff7e5f 0%, #feb47b 100%)",
-  },
-  {
-    id: "bosque",
-    nombre: "Menta",
-    css: "linear-gradient(160deg, #11998e 0%, #38ef7d 100%)",
-  },
+  { id: "bloom", nombre: "Aurora azul", src: "/wallpapers/aurora-azul.svg" },
+  { id: "nocturno", nombre: "Nocturno", src: "/wallpapers/nocturno.svg" },
+  { id: "aurora", nombre: "Violeta", src: "/wallpapers/violeta.svg" },
+  { id: "atardecer", nombre: "Atardecer", src: "/wallpapers/atardecer.svg" },
+  { id: "bosque", nombre: "Menta", src: "/wallpapers/menta.svg" },
 ];
 
 // Colores de íconos tipo iOS (fondo degradado de cada "app")
