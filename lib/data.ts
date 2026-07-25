@@ -80,13 +80,18 @@ export const contacto = {
 
 // Fondos de escritorio: imágenes reales (SVG) en /public/wallpapers.
 // Para usar tus propias fotos: coloca un .jpg/.png en public/wallpapers/
-// y cambia "src" por esa ruta, ej: "/wallpapers/mi-foto.jpg"
+// y cambia el nombre de archivo abajo, ej: "mi-foto.jpg"
+// BASE_PATH se antepone automáticamente para que funcione en GitHub Pages
+// (donde el sitio vive en /PortafolioIOS) y en localhost (donde está vacío).
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH || "";
+const wallpaperPath = (file: string) => `${BASE_PATH}/wallpapers/${file}`;
+
 export const wallpapers = [
-  { id: "bloom", nombre: "Aurora azul", src: "/wallpapers/aurora-azul.svg" },
-  { id: "nocturno", nombre: "Nocturno", src: "/wallpapers/nocturno.svg" },
-  { id: "aurora", nombre: "Violeta", src: "/wallpapers/violeta.svg" },
-  { id: "atardecer", nombre: "Atardecer", src: "/wallpapers/atardecer.svg" },
-  { id: "bosque", nombre: "Menta", src: "/wallpapers/menta.svg" },
+  { id: "bloom", nombre: "Aurora azul", src: wallpaperPath("aurora-azul.svg") },
+  { id: "nocturno", nombre: "Nocturno", src: wallpaperPath("nocturno.svg") },
+  { id: "aurora", nombre: "Violeta", src: wallpaperPath("violeta.svg") },
+  { id: "atardecer", nombre: "Atardecer", src: wallpaperPath("atardecer.svg") },
+  { id: "bosque", nombre: "Menta", src: wallpaperPath("menta.svg") },
 ];
 
 // Colores de íconos tipo iOS (fondo degradado de cada "app")
