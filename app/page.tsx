@@ -8,7 +8,9 @@ import {
   Award,
   Mail,
   Settings,
-  ExternalLink,
+  ArrowUpRight,
+  Copy,
+  Check,
   Moon,
   Sun,
 } from "lucide-react";
@@ -43,6 +45,7 @@ export default function Home() {
   const [wallpaperId, setWallpaperId] = useState(wallpapers[0].id);
   const [searchQuery, setSearchQuery] = useState("");
   const [highlighted, setHighlighted] = useState<string | null>(null);
+  const [linkCopied, setLinkCopied] = useState(false);
   const highlightTimeout = useRef<ReturnType<typeof setTimeout>>();
 
   const wallpaper = wallpapers.find((w) => w.id === wallpaperId) ?? wallpapers[0];
@@ -119,7 +122,7 @@ export default function Home() {
     const secciones: { match: string[]; key: AppKey; label: string }[] = [
       { match: ["sobre mí", "sobre mi", "objetivo", "perfil"], key: "sobreMi", label: "Sobre mí" },
       { match: ["certificacion", "bootcamp", "talento digital"], key: "certificaciones", label: "Certificaciones" },
-      { match: ["contacto", "email", "correo"], key: "contacto", label: "Contacto" },
+      { match: ["contacto", "portafolio", "link", "enlace"], key: "contacto", label: "Contacto" },
       { match: ["ajustes", "fondo", "wallpaper", "modo oscuro"], key: "ajustes", label: "Ajustes" },
     ];
     secciones.forEach((s) => {
@@ -161,8 +164,8 @@ export default function Home() {
   return (
     <main className={dark ? "dark" : ""}>
       <div
-        className="h-screen w-screen relative overflow-hidden transition-colors"
-        style={{ background: wallpaper.css }}
+        className="h-screen w-screen relative overflow-hidden transition-colors bg-cover bg-center"
+        style={{ backgroundImage: `url(${wallpaper.src})` }}
       >
         <StatusBar />
 
@@ -231,8 +234,9 @@ export default function Home() {
                 <div
                   key={p.titulo}
                   id={`project-${p.titulo}`}
-                  className={`rounded-2xl bg-black/[0.03] dark:bg-white/5 border border-black/5 dark:border-white/10 p-4 transition-all duration-500 ${highlighted === `project-${p.titulo}` ? "ring-2 ring-ios-blue" : ""
-                    }`}
+                  className={`rounded-2xl bg-black/[0.03] dark:bg-white/5 border border-black/5 dark:border-white/10 p-4 transition-all duration-500 ${
+                    highlighted === `project-${p.titulo}` ? "ring-2 ring-ios-blue" : ""
+                  }`}
                 >
                   <h3 className="text-[14px] font-semibold text-ios-text dark:text-white mb-1">{p.titulo}</h3>
                   <p className="text-[12.5px] text-ios-textSub dark:text-white/60 mb-2 leading-relaxed">{p.descripcion}</p>
@@ -269,25 +273,48 @@ export default function Home() {
 
         {openApp === "contacto" && (
           <AppSheet title="Contacto" icon={<Mail size={16} />} gradient={appColors.contacto} onClose={() => setOpenApp(null)}>
-            <p className="text-[14px] text-ios-text dark:text-white/90 mb-4">
-              Estoy disponible para discutir proyectos, ideas o cualquier consulta profesional.
+            <p className="text-[14px] text-ios-text dark:text-white/90 mb-5 leading-relaxed">
+              Estoy disponible para discutir proyectos, ideas o cualquier consulta profesional. Toda mi información de contacto está en mi portafolio.
             </p>
-            <a
-              href={`mailto:${contacto.email}`}
-              className="flex items-center justify-between rounded-2xl bg-ios-blue text-white px-4 py-3 text-[13.5px] font-medium mb-2"
-            >
-              {contacto.email}
-              <Mail size={16} />
-            </a>
+
+            {/* Botón de acceso principal, con indicador pulsante */}
             <a
               href={contacto.portafolio}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-between rounded-2xl bg-black/5 dark:bg-white/10 text-ios-text dark:text-white px-4 py-3 text-[13.5px] font-medium"
+              className="relative flex items-center justify-between rounded-2xl bg-ios-blue text-white px-5 py-4 mb-3 active:scale-95 transition-transform shadow-icon"
             >
-              Ver portafolio
-              <ExternalLink size={16} />
+              <span className="flex flex-col gap-1">
+                <span className="flex items-center gap-2 text-[11px] font-medium text-white/80 uppercase tracking-wide">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-300 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400" />
+                  </span>
+                  Disponible ahora
+                </span>
+                <span className="text-[15px] font-semibold">Entrar a mi portafolio</span>
+              </span>
+              <ArrowUpRight size={22} />
             </a>
+
+            {/* Copiar enlace */}
+            <button
+              onClick={() => {
+                navigator.clipboard?.writeText(contacto.portafolio);
+                setLinkCopied(true);
+                setTimeout(() => setLinkCopied(false), 1800);
+              }}
+              className="w-full flex items-center justify-between rounded-2xl bg-black/[0.04] dark:bg-white/10 text-ios-text dark:text-white px-4 py-3 text-[13px] font-medium"
+            >
+              <span className="truncate text-ios-textSub dark:text-white/60">{contacto.portafolio}</span>
+              {linkCopied ? (
+                <span className="flex items-center gap-1 text-ios-green shrink-0">
+                  <Check size={15} /> Copiado
+                </span>
+              ) : (
+                <Copy size={15} className="shrink-0 text-ios-textSub dark:text-white/50" />
+              )}
+            </button>
           </AppSheet>
         )}
 
@@ -302,9 +329,10 @@ export default function Home() {
                   key={w.id}
                   title={w.nombre}
                   onClick={() => changeWallpaper(w.id)}
-                  className={`w-14 h-14 rounded-2xl border-2 transition-all ${wallpaperId === w.id ? "border-ios-blue scale-105" : "border-transparent"
-                    }`}
-                  style={{ background: w.css }}
+                  className={`w-14 h-14 rounded-2xl border-2 bg-cover bg-center transition-all ${
+                    wallpaperId === w.id ? "border-ios-blue scale-105" : "border-transparent"
+                  }`}
+                  style={{ backgroundImage: `url(${w.src})` }}
                 />
               ))}
             </div>
@@ -322,8 +350,9 @@ export default function Home() {
               </span>
               <span className={`w-11 h-6 rounded-full relative transition-colors ${dark ? "bg-ios-green" : "bg-black/20"}`}>
                 <span
-                  className={`absolute top-0.5 w-5 h-5 rounded-full bg-white transition-all shadow ${dark ? "left-5" : "left-0.5"
-                    }`}
+                  className={`absolute top-0.5 w-5 h-5 rounded-full bg-white transition-all shadow ${
+                    dark ? "left-5" : "left-0.5"
+                  }`}
                 />
               </span>
             </button>
