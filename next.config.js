@@ -7,7 +7,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  basePath: isProd ? "/PortafolioIOS/" : "",
+  basePath: isProd ? "/PortafolioIOS" : "",
   assetPrefix: isProd ? "/PortafolioIOS/" : "",
   trailingSlash: true,
 };
